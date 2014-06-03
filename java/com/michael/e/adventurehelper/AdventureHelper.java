@@ -45,7 +45,7 @@ public class AdventureHelper {
 		netHandler = NetworkRegistry.INSTANCE.newSimpleChannel(ModInfo.MOD_ID);
 		netHandler.registerMessage(ChanceMessageHandler.class, ChanceMessageHandler.DropChanceUpdateMessage.class, 0, Side.SERVER);
 		netHandler.registerMessage(GetDropChanceMessageHandler.class, GetDropChanceMessageHandler.GetDropChanceMessage.class, 1, Side.SERVER);
-		netHandler.registerMessage(DropChanceReplyMessageHandler.class, GetDropChanceMessageHandler.DropChanceReplyMessage.class, 0, Side.CLIENT);
+		netHandler.registerMessage(DropChanceReplyMessageHandler.class, GetDropChanceMessageHandler.DropChanceReplyMessage.class, 2, Side.CLIENT);
 	}
 	
 	@EventHandler
