@@ -1,0 +1,5 @@
+item.itemWand.name=Wand of Editing
+item.itemKey.name=Door Key
+tile.blockDoor.name=Locked Door
+tile.blockInvLimitor.name=Inventory Limiter
+itemGroup.tabAdventure=Adventure Map Helper

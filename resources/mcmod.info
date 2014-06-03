@@ -1,0 +1,16 @@
+[
+{
+  "modid": "adventurehelper",
+  "name": "Adventure Map Helper",
+  "description": "Everything you need to make a good adventure map without advanced command block knowledge!",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Michael E"],
+  "credits": "Vswe for his great modding courses.",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
