@@ -1,7 +1,6 @@
 package com.michael.e.adventurehelper.network;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.inventory.Container;
 
 import com.michael.e.adventurehelper.common.ContainerMonsterEdit;
@@ -18,7 +17,7 @@ public class ChanceMessageHandler implements IMessageHandler<ChanceMessageHandle
 	    public IMessage onMessage(DropChanceUpdateMessage message, MessageContext context)
 	    {
 	        if(!context.side.isServer())
-	            throw new IllegalStateException("received ExampleMessage " + message + "on client side!");
+	            throw new IllegalStateException("received DropChanceUpdateMessage " + message + "on client side!");
 	 
 	        Container c = context.getServerHandler().playerEntity.openContainer;
 	        

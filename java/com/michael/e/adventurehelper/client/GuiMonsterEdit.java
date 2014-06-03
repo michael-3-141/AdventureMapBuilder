@@ -13,6 +13,7 @@ import com.michael.e.adventurehelper.AdventureHelper;
 import com.michael.e.adventurehelper.ModInfo;
 import com.michael.e.adventurehelper.common.ContainerMonsterEdit;
 import com.michael.e.adventurehelper.network.ChanceMessageHandler;
+import com.michael.e.adventurehelper.network.GetDropChanceMessageHandler;
 
 import cpw.mods.fml.common.ObfuscationReflectionHelper;
 
@@ -53,8 +54,7 @@ public class GuiMonsterEdit extends GuiContainer{
 	public void initGui() {
 		super.initGui();
 		heldItemChance = new GuiTextField(this.fontRendererObj, 27, 8, 43, 12);
-		float[] equipmentDropChances = ObfuscationReflectionHelper.getPrivateValue(EntityLiving.class, entity, "equipmentDropChances");
-		heldItemChance.setText(Float.toString(equipmentDropChances[0]));
+		AdventureHelper.netHandler.sendToServer(new GetDropChanceMessageHandler.GetDropChanceMessage());
 		heldItemChance.setFocused(true);
 		heldItemChance.setCanLoseFocus(true);
 	}
@@ -85,6 +85,11 @@ public class GuiMonsterEdit extends GuiContainer{
 	protected void mouseClicked(int par1, int par2, int par3) {
 		heldItemChance.mouseClicked(par1-guiLeft, par2-guiTop, par3);
 		super.mouseClicked(par1, par2, par3);
+	}
+	
+	public void setText() {
+		float[] equipmentDropChances = ObfuscationReflectionHelper.getPrivateValue(EntityLiving.class, entity, "equipmentDropChances");
+		heldItemChance.setText(Float.toString(equipmentDropChances[0]));
 	}
 
 }

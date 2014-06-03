@@ -9,6 +9,8 @@ import com.michael.e.adventurehelper.config.ConfigManager;
 import com.michael.e.adventurehelper.items.MyItems;
 import com.michael.e.adventurehelper.network.ChanceMessageHandler;
 import com.michael.e.adventurehelper.network.CommonProxy;
+import com.michael.e.adventurehelper.network.DropChanceReplyMessageHandler;
+import com.michael.e.adventurehelper.network.GetDropChanceMessageHandler;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -42,6 +44,8 @@ public class AdventureHelper {
 		
 		netHandler = NetworkRegistry.INSTANCE.newSimpleChannel(ModInfo.MOD_ID);
 		netHandler.registerMessage(ChanceMessageHandler.class, ChanceMessageHandler.DropChanceUpdateMessage.class, 0, Side.SERVER);
+		netHandler.registerMessage(GetDropChanceMessageHandler.class, GetDropChanceMessageHandler.GetDropChanceMessage.class, 1, Side.SERVER);
+		netHandler.registerMessage(DropChanceReplyMessageHandler.class, GetDropChanceMessageHandler.DropChanceReplyMessage.class, 0, Side.CLIENT);
 	}
 	
 	@EventHandler
