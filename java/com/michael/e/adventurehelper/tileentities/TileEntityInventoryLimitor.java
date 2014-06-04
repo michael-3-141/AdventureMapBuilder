@@ -1,9 +1,12 @@
 package com.michael.e.adventurehelper.tileentities;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityInventoryLimitor extends TileEntity implements IInventory{
@@ -102,5 +105,39 @@ public class TileEntityInventoryLimitor extends TileEntity implements IInventory
 			}
 		}
 		
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound compound) {
+		super.readFromNBT(compound);
+		
+		items = new ItemStack[getSizeInventory()];
+		NBTTagList list = (NBTTagList) compound.getTag("items");
+		for(int i = 0; i < list.tagCount(); i++)
+		{
+			NBTTagCompound item = new NBTTagCompound();
+			item = list.getCompoundTagAt(i);
+			ItemStack stack = new ItemStack(Items.apple);
+			stack.readFromNBT(item);
+			items[item.getInteger("slot")] = stack;
+		}
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound compound) {
+		super.writeToNBT(compound);
+		
+		NBTTagList list = new NBTTagList();
+		for(int i = 0; i < getSizeInventory(); i++)
+		{
+			if(items[i] != null)
+			{
+				NBTTagCompound item = new NBTTagCompound();
+				item.setInteger("slot", i);
+				items[i].writeToNBT(item);
+				list.appendTag(item);
+			}
+		}
+		compound.setTag("items", list);
 	}
 }

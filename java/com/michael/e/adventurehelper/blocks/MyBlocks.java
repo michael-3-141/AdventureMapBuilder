@@ -2,6 +2,7 @@ package com.michael.e.adventurehelper.blocks;
 
 import com.michael.e.adventurehelper.ModInfo;
 import com.michael.e.adventurehelper.tileentities.TileEntityDoor;
+import com.michael.e.adventurehelper.tileentities.TileEntityInventoryLimitor;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
@@ -18,6 +19,7 @@ public class MyBlocks {
 		
 		invLimitor = new BlockInventoryLimitor();
 		registerBlock(invLimitor);
+		GameRegistry.registerTileEntity(TileEntityInventoryLimitor.class, "TileEntityInventoryLimiter");
 	}
 	
 	public static void registerBlock(Block block)

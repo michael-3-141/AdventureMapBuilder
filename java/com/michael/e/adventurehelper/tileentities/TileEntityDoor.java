@@ -24,14 +24,14 @@ public class TileEntityDoor extends TileEntity {
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
-		code = compound.getInteger("Code");
+		code = compound.getInteger("code");
 	}
 
 
 	@Override
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
-		compound.setInteger("Code", code);
+		compound.setInteger("code", code);
 	}
 	
 	@Override
