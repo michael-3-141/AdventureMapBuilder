@@ -7,6 +7,8 @@ import com.michael.e.adventurehelper.blocks.MyBlocks;
 import com.michael.e.adventurehelper.common.GuiHandler;
 import com.michael.e.adventurehelper.config.ConfigManager;
 import com.michael.e.adventurehelper.items.MyItems;
+import com.michael.e.adventurehelper.network.ButtonClickedMessageHandler;
+import com.michael.e.adventurehelper.network.ButtonClickedMessageHandler.ButtonClickedMessage;
 import com.michael.e.adventurehelper.network.ChanceMessageHandler;
 import com.michael.e.adventurehelper.network.CommonProxy;
 import com.michael.e.adventurehelper.network.DropChanceReplyMessageHandler;
@@ -46,6 +48,7 @@ public class AdventureHelper {
 		netHandler.registerMessage(ChanceMessageHandler.class, ChanceMessageHandler.DropChanceUpdateMessage.class, 0, Side.SERVER);
 		netHandler.registerMessage(GetDropChanceMessageHandler.class, GetDropChanceMessageHandler.GetDropChanceMessage.class, 1, Side.SERVER);
 		netHandler.registerMessage(DropChanceReplyMessageHandler.class, GetDropChanceMessageHandler.DropChanceReplyMessage.class, 2, Side.CLIENT);
+		netHandler.registerMessage(ButtonClickedMessageHandler.class, ButtonClickedMessage.class, 3, Side.SERVER);
 	}
 	
 	@EventHandler

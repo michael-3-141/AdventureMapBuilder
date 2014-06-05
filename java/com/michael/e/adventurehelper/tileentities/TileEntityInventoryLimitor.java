@@ -7,14 +7,18 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
 public class TileEntityInventoryLimitor extends TileEntity implements IInventory{
 
 	private ItemStack[] items;
+	private boolean isWhitelist;
 	
 	public TileEntityInventoryLimitor() {
-		items = new ItemStack[5];
+		items = new ItemStack[18];
 	}
 
 	@Override
@@ -96,12 +100,40 @@ public class TileEntityInventoryLimitor extends TileEntity implements IInventory
 	}
 	
 	public void clearInventoryBySetItems(EntityPlayer player) {
-		for(int i = 0; i < getSizeInventory(); i++)
+		if(!isWhitelist)
 		{
-			if(getStackInSlot(i) != null)
+			for(int i = 0; i < getSizeInventory(); i++)
 			{
-				Item item = getStackInSlot(i).getItem();
-				player.inventory.clearInventory(item, getStackInSlot(i).getItemDamage());
+				if(getStackInSlot(i) != null)
+				{
+					
+					Item item = getStackInSlot(i).getItem();
+					player.inventory.clearInventory(item, getStackInSlot(i).getItemDamage());
+				}
+			}
+		}
+		else
+		{
+
+			for(int i = 0; i < player.inventory.getSizeInventory(); i++)
+			{
+				if(player.inventory.getStackInSlot(i) != null)
+				{
+					Item item = player.inventory.getStackInSlot(i).getItem();
+					boolean allowed = false;
+					for(int j = 0; j < getSizeInventory(); j++)
+					{
+						if(getStackInSlot(j) != null && getStackInSlot(j).getItem() == item)
+						{
+							allowed = true;
+							break;
+						}
+					}
+					if(!allowed)
+					{
+						player.inventory.setInventorySlotContents(i, null);
+					}
+				}
 			}
 		}
 		
@@ -121,6 +153,8 @@ public class TileEntityInventoryLimitor extends TileEntity implements IInventory
 			stack.readFromNBT(item);
 			items[item.getInteger("slot")] = stack;
 		}
+		
+		isWhitelist = compound.getBoolean("whitelist");
 	}
 	
 	@Override
@@ -139,5 +173,27 @@ public class TileEntityInventoryLimitor extends TileEntity implements IInventory
 			}
 		}
 		compound.setTag("items", list);
+		
+		compound.setBoolean("whitelist", isWhitelist);
+	}
+
+	public boolean isWhitelist() {
+		return isWhitelist;
+	}
+
+	public void setWhitelist(boolean isWhitelist) {
+		this.isWhitelist = isWhitelist;
+	}
+	
+	@Override
+	public Packet getDescriptionPacket() {
+		NBTTagCompound nbt = new NBTTagCompound();
+		writeToNBT(nbt);
+		return new S35PacketUpdateTileEntity(xCoord, yCoord, zCoord, 1, nbt);
+	}
+	
+	@Override
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+		this.readFromNBT(pkt.func_148857_g());
 	}
 }

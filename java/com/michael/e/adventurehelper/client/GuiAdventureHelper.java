@@ -38,6 +38,19 @@ public abstract class GuiAdventureHelper extends GuiContainer {
 	protected void initLedgers(IInventory inventory) {
 	}
 
+	@Override
+	protected void mouseClicked(int x, int y, int btn) {
+		super.mouseClicked(x, y, btn);
+		
+		ledgerManager.handleMouseClicked(x, y, btn);
+	}
+	
+	@Override
+	protected void drawGuiContainerForegroundLayer(int x, int y) {
+		super.drawGuiContainerForegroundLayer(x, y);
+		
+		ledgerManager.drawLedgers(x, y);
+	}
 
 	public static final ResourceLocation LEDGER_TEXTURE = new ResourceLocation(ModInfo.ASSET_FOLDER, "textures/gui/ledger.png");
 	public final LedgerManager ledgerManager = new LedgerManager(this);
@@ -242,5 +255,42 @@ public abstract class GuiAdventureHelper extends GuiContainer {
 			GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0F);
 			drawTexturedModelRectFromIcon(x, y, icon, 16, 16);
 		}
+	}
+	
+	public class InfoLedger extends Ledger {
+
+		private String text;
+		
+		public InfoLedger(String text) {
+			this.text = text;
+			maxHeight=130;
+			maxWidth=150;
+			overlayColor=0x222222;
+		}
+		
+		public InfoLedger(String text, int height, int width) {
+			this.text = text;
+			maxHeight=height;
+			maxWidth=width;
+			overlayColor=0x222222;
+		}
+		
+		@Override
+		public String getTooltip() {
+			return "Help!";
+		}
+		
+		@Override
+		public void draw(int x, int y) {
+			drawBackground(x, y);
+			
+			if(!isFullyOpened() || currentHeight < maxHeight)
+			{
+				return;
+			}
+			
+			fontRendererObj.drawSplitString(text, x+5, y+8, maxWidth-10, 0x000000);
+		}
+		
 	}
 }

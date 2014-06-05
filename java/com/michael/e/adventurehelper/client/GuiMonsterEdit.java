@@ -52,8 +52,6 @@ public class GuiMonsterEdit extends GuiAdventureHelper{
 		chestplateChance.drawTextBox();
 		leggingsChance.drawTextBox();
 		bootsChance.drawTextBox();
-		
-		ledgerManager.drawLedgers(i, j);
 	}
 	
 	@Override
@@ -171,7 +169,6 @@ public class GuiMonsterEdit extends GuiAdventureHelper{
 		chestplateChance.mouseClicked(x, y, par3);
 		leggingsChance.mouseClicked(x, y, par3);
 		bootsChance.mouseClicked(x, y, par3);
-		ledgerManager.handleMouseClicked(par1, par2, par3);
 		super.mouseClicked(par1, par2, par3);
 	}
 	
@@ -188,34 +185,7 @@ public class GuiMonsterEdit extends GuiAdventureHelper{
 	protected void initLedgers(IInventory inventory) {
 		super.initLedgers(inventory);
 		
-		ledgerManager.add(new InfoLedger());
-	}
-	
-	public class InfoLedger extends Ledger {
-
-		public InfoLedger() {
-			maxHeight=130;
-			maxWidth=150;
-			overlayColor=0x222222;
-		}
-		
-		@Override
-		public String getTooltip() {
-			return "Help!";
-		}
-		
-		@Override
-		public void draw(int x, int y) {
-			drawBackground(x, y);
-			
-			if(!isFullyOpened() || currentHeight < maxHeight)
-			{
-				return;
-			}
-			
-			fontRendererObj.drawSplitString("This interface allows you to give monsters aromour and an item to hold in their hand, and set the chance of each item to drop. Setting the chance to 1 will guarantee a drop but will give the item a random amount of damage if its a tool or armour. To guarantee dropping and not damage the item, set the chance to 2.", x+5, y+8, maxWidth-10, 0x000000);
-		}
-		
+		ledgerManager.add(new InfoLedger("This interface allows you to give monsters aromour and an item to hold in their hand, and set the chance of each item to drop. Setting the chance to 1 will guarantee a drop but will give the item a random amount of damage if its a tool or armour. To guarantee dropping and not damage the item, set the chance to 2."));
 	}
 
 }
